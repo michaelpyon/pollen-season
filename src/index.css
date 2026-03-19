@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/dmsans/v15/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAop-hSA.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/instrumentserif/v4/jizBRFtNs2ka5fCjFI3-WC6MN1yenQ.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/instrumentserif/v4/jizHRFtNs2ka5fCjFI3-WC6MN1yqho1M.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v21/tDbY2o-flEEny0FPP0TkmXPYD37r8kZY.woff2) format('woff2');
+}
+
+:root {
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --color-bg: #F0EDE5;
+  --color-surface: #E8E5DD;
+  --color-surface-hover: #E0DDD5;
+  --color-text: #1A1A1A;
+  --color-text-muted: #78736A;
+  --color-text-subtle: #A8A29E;
+  --color-border: rgba(120, 100, 80, 0.15);
+  --color-border-hover: rgba(120, 100, 80, 0.25);
+
+  --color-sage: #6B8F71;
+  --color-sage-light: #E8F0E8;
+  --color-sage-bg: #EDF2EC;
+  --color-amber: #C4943A;
+  --color-amber-light: #F5ECD8;
+  --color-amber-bg: #F3EDDF;
+  --color-terracotta: #C25D3A;
+  --color-terracotta-light: #F5E0D8;
+  --color-terracotta-bg: #F2E4DE;
+  --color-terracotta-deep: #A3422A;
+  --color-terracotta-deep-light: #F0D0C8;
+  --color-terracotta-deep-bg: #EFDED8;
+}
+
+@theme {
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-surface-hover: var(--color-surface-hover);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-subtle: var(--color-text-subtle);
+  --color-border: var(--color-border);
+  --color-border-hover: var(--color-border-hover);
+  --color-sage: var(--color-sage);
+  --color-sage-light: var(--color-sage-light);
+  --color-amber: var(--color-amber);
+  --color-amber-light: var(--color-amber-light);
+  --color-terracotta: var(--color-terracotta);
+  --color-terracotta-light: var(--color-terracotta-light);
+  --color-terracotta-deep: var(--color-terracotta-deep);
+  --color-terracotta-deep-light: var(--color-terracotta-deep-light);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+html {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-text-subtle);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: rgba(26, 26, 26, 0.12);
+}
