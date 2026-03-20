@@ -1,85 +1,52 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'DM Sans';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/dmsans/v15/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAop-hSA.woff2) format('woff2');
-}
-
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/instrumentserif/v4/jizBRFtNs2ka5fCjFI3-WC6MN1yenQ.woff2) format('woff2');
-}
-
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/instrumentserif/v4/jizHRFtNs2ka5fCjFI3-WC6MN1yqho1M.woff2) format('woff2');
-}
-
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 100 800;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v21/tDbY2o-flEEny0FPP0TkmXPYD37r8kZY.woff2) format('woff2');
-}
-
 :root {
-  --font-display: 'Instrument Serif', Georgia, serif;
-  --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 
-  --color-bg: #F0EDE5;
-  --color-surface: #E8E5DD;
-  --color-surface-hover: #E0DDD5;
-  --color-text: #1A1A1A;
-  --color-text-muted: #78736A;
-  --color-text-subtle: #A8A29E;
-  --color-border: rgba(120, 100, 80, 0.15);
-  --color-border-hover: rgba(120, 100, 80, 0.25);
+  --color-bg: #fbf9f4;
+  --color-surface: #f5f4ed;
+  --color-surface-hover: #efeee7;
+  --color-surface-high: #e9e8e1;
+  --color-text: #31332e;
+  --color-text-muted: #5e6059;
+  --color-text-subtle: #7a7b75;
+  --color-border: rgba(49, 51, 46, 0.1);
+  --color-border-hover: rgba(49, 51, 46, 0.18);
+  --color-primary: #3a666a;
+  --color-primary-container: #bdebef;
+  --color-on-primary-container: #2c585c;
 
-  --color-sage: #6B8F71;
-  --color-sage-light: #E8F0E8;
-  --color-sage-bg: #EDF2EC;
-  --color-amber: #C4943A;
-  --color-amber-light: #F5ECD8;
-  --color-amber-bg: #F3EDDF;
-  --color-terracotta: #C25D3A;
-  --color-terracotta-light: #F5E0D8;
-  --color-terracotta-bg: #F2E4DE;
-  --color-terracotta-deep: #A3422A;
-  --color-terracotta-deep-light: #F0D0C8;
-  --color-terracotta-deep-bg: #EFDED8;
+  /* Severity: teal (calm) -> warm gold -> peach -> red-brown (urgent) */
+  --color-severity-0: #3a666a;
+  --color-severity-0-light: #bdebef;
+  --color-severity-0-bg: #eef7f8;
+  --color-severity-1: #3a666a;
+  --color-severity-1-light: #bdebef;
+  --color-severity-1-bg: #eef7f8;
+  --color-severity-2: #9A7B4F;
+  --color-severity-2-light: #f5ecd8;
+  --color-severity-2-bg: #f8f3ea;
+  --color-severity-3: #855335;
+  --color-severity-3-light: #ffdbc9;
+  --color-severity-3-bg: #fef3ec;
+  --color-severity-4: #a83836;
+  --color-severity-4-light: #fce4e4;
+  --color-severity-4-bg: #fdf0f0;
 }
 
 @theme {
   --color-bg: var(--color-bg);
   --color-surface: var(--color-surface);
   --color-surface-hover: var(--color-surface-hover);
+  --color-surface-high: var(--color-surface-high);
   --color-text: var(--color-text);
   --color-text-muted: var(--color-text-muted);
   --color-text-subtle: var(--color-text-subtle);
   --color-border: var(--color-border);
   --color-border-hover: var(--color-border-hover);
-  --color-sage: var(--color-sage);
-  --color-sage-light: var(--color-sage-light);
-  --color-amber: var(--color-amber);
-  --color-amber-light: var(--color-amber-light);
-  --color-terracotta: var(--color-terracotta);
-  --color-terracotta-light: var(--color-terracotta-light);
-  --color-terracotta-deep: var(--color-terracotta-deep);
-  --color-terracotta-deep-light: var(--color-terracotta-deep-light);
-  --font-display: var(--font-display);
+  --color-primary: var(--color-primary);
+  --color-primary-container: var(--color-primary-container);
   --font-body: var(--font-body);
-  --font-mono: var(--font-mono);
 }
 
 html {
@@ -97,6 +64,10 @@ body {
 
 #root {
   min-height: 100dvh;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -126,11 +97,11 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-text-subtle);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
 ::selection {
-  background: rgba(26, 26, 26, 0.12);
+  background: rgba(58, 102, 106, 0.15);
 }

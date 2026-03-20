@@ -14,18 +14,21 @@ export default function TrendAlert({ todayUpi, tomorrowUpi }) {
       variants={entrance}
       initial="hidden"
       animate="visible"
-      className="mx-6 px-4 py-3 rounded-xl text-sm"
+      className="mx-6 flex items-center gap-3 px-5 py-4 rounded-2xl"
       style={{
         backgroundColor: tomorrowConfig.lightColor,
-        boxShadow: `0 0 0 1px ${tomorrowConfig.color}20`,
+        boxShadow: `0 0 0 1px ${tomorrowConfig.color}15`,
       }}
     >
-      <span className="font-medium" style={{ color: tomorrowConfig.color }}>
-        Heads up:
-      </span>{' '}
-      <span className="text-text-muted">
-        Tomorrow jumps to {tomorrowConfig.label.toLowerCase()}. Plan accordingly.
+      <span className="material-symbols-outlined text-xl" style={{ color: tomorrowConfig.color }}>
+        trending_up
       </span>
+      <p className="text-sm">
+        <span className="font-bold" style={{ color: tomorrowConfig.color }}>Heads up:</span>{' '}
+        <span style={{ color: 'var(--color-text-muted)' }}>
+          Tomorrow jumps to {tomorrowConfig.label.toLowerCase()}. Plan accordingly.
+        </span>
+      </p>
     </motion.div>
   )
 }

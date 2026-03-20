@@ -33,7 +33,7 @@ export default function Today() {
     return (
       <div className="min-h-[calc(100dvh-5rem)] flex flex-col items-center justify-center px-6">
         <p className="text-text-muted text-sm">Something went wrong loading pollen data.</p>
-        <p className="text-text-subtle text-xs mt-2" style={{ fontFamily: 'var(--font-mono)' }}>{error}</p>
+        <p className="text-xs mt-2" style={{ color: 'var(--color-text-subtle)' }}>{error}</p>
       </div>
     )
   }

@@ -1,4 +1,4 @@
-// Framer Motion animation variants (from design system)
+// Framer Motion animation variants
 export const entrance = {
   hidden: { opacity: 0, y: 12, filter: 'blur(4px)' },
   visible: {
@@ -35,37 +35,39 @@ export const press = { scale: 0.96 }
 export const SEVERITY_CONFIG = {
   0: {
     label: 'Clear',
-    color: 'var(--color-sage)',
-    lightColor: 'var(--color-sage-light)',
-    bgColor: 'var(--color-sage-bg)',
-    dotClass: 'bg-sage',
+    color: 'var(--color-severity-0)',
+    lightColor: 'var(--color-severity-0-light)',
+    bgColor: 'var(--color-severity-0-bg)',
   },
   1: {
     label: 'Low',
-    color: 'var(--color-sage)',
-    lightColor: 'var(--color-sage-light)',
-    bgColor: 'var(--color-sage-bg)',
-    dotClass: 'bg-sage',
+    color: 'var(--color-severity-1)',
+    lightColor: 'var(--color-severity-1-light)',
+    bgColor: 'var(--color-severity-1-bg)',
   },
   2: {
     label: 'Moderate',
-    color: 'var(--color-amber)',
-    lightColor: 'var(--color-amber-light)',
-    bgColor: 'var(--color-amber-bg)',
-    dotClass: 'bg-amber',
+    color: 'var(--color-severity-2)',
+    lightColor: 'var(--color-severity-2-light)',
+    bgColor: 'var(--color-severity-2-bg)',
   },
   3: {
     label: 'High',
-    color: 'var(--color-terracotta)',
-    lightColor: 'var(--color-terracotta-light)',
-    bgColor: 'var(--color-terracotta-bg)',
-    dotClass: 'bg-terracotta',
+    color: 'var(--color-severity-3)',
+    lightColor: 'var(--color-severity-3-light)',
+    bgColor: 'var(--color-severity-3-bg)',
   },
   4: {
     label: 'Very High',
-    color: 'var(--color-terracotta-deep)',
-    lightColor: 'var(--color-terracotta-deep-light)',
-    bgColor: 'var(--color-terracotta-deep-bg)',
-    dotClass: 'bg-terracotta-deep',
+    color: 'var(--color-severity-4)',
+    lightColor: 'var(--color-severity-4-light)',
+    bgColor: 'var(--color-severity-4-bg)',
   },
+}
+
+// Material icon name per pollen type
+export const TYPE_ICONS = {
+  TREE: 'park',
+  GRASS: 'grass',
+  WEED: 'energy_savings_leaf',
 }

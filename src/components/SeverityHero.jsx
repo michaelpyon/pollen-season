@@ -5,26 +5,17 @@ import { entrance, stagger } from '../constants/theme'
 import PollenGauge from './PollenGauge'
 import TypeRow from './TypeRow'
 
-const BG_COLORS = {
-  0: 'var(--color-sage-bg)',
-  1: 'var(--color-sage-bg)',
-  2: 'var(--color-amber-bg)',
-  3: 'var(--color-terracotta-bg)',
-  4: 'var(--color-terracotta-deep-bg)',
-}
-
 export default function SeverityHero({ todayData, severity }) {
   if (!todayData || !severity) return null
 
   const config = getSeverityConfig(severity.upi)
   const recommendation = getRecommendation(severity.upi, severity.topSpecies)
-  const bgColor = BG_COLORS[Math.round(severity.upi)] || BG_COLORS[0]
+  const bgColor = config.bgColor || 'var(--color-bg)'
 
   return (
     <motion.div
-      className="min-h-[calc(100dvh-5rem)] flex flex-col justify-center px-6 py-12 transition-colors"
+      className="flex flex-col px-6 py-12 transition-colors"
       style={{
-        backgroundColor: bgColor,
         transitionProperty: 'background-color',
         transitionDuration: '800ms',
         transitionTimingFunction: 'ease',
@@ -33,61 +24,65 @@ export default function SeverityHero({ todayData, severity }) {
       initial="hidden"
       animate="visible"
     >
-      <motion.div variants={entrance} className="mb-8">
-        <p
-          className="text-text-muted text-xs tracking-wider uppercase"
-          style={{ fontFamily: 'var(--font-mono)' }}
-        >
+      <motion.div variants={entrance} className="mb-6">
+        <p className="text-[10px] font-bold tracking-[0.1em] uppercase" style={{ color: 'var(--color-text-muted)' }}>
           {formatHeaderDate(todayData.date)} / Manhattan, NY
         </p>
       </motion.div>
 
-      <motion.div variants={entrance} className="mb-4">
+      {/* Hero severity card */}
+      <motion.div
+        variants={entrance}
+        className="relative overflow-hidden rounded-2xl p-8 mb-8 flex flex-col items-center text-center"
+        style={{ backgroundColor: config.lightColor }}
+      >
+        <p className="text-[10px] font-bold tracking-[0.1em] uppercase mb-2" style={{ color: config.color, opacity: 0.7 }}>
+          Current Severity
+        </p>
         <h1
-          className="text-[72px] sm:text-[96px] leading-[0.9] tracking-tight"
-          style={{
-            fontFamily: 'var(--font-display)',
-            color: config.color,
-            textWrap: 'balance',
-          }}
+          className="text-7xl sm:text-8xl font-extrabold tracking-tighter mb-4"
+          style={{ color: config.color }}
         >
           {config.label}
         </h1>
+        <p className="text-lg font-medium leading-relaxed max-w-xs" style={{ color: config.color }}>
+          {recommendation}
+        </p>
+
+        {/* Gauge inside the card */}
+        <div className="mt-8 w-full max-w-xs">
+          <PollenGauge value={severity.upi} />
+        </div>
       </motion.div>
 
-      <motion.p
-        variants={entrance}
-        className="text-text-muted text-lg sm:text-xl max-w-md leading-relaxed mb-10"
-        style={{ textWrap: 'pretty' }}
-      >
-        {recommendation}
-      </motion.p>
-
-      <motion.div variants={entrance} className="mb-8">
-        <PollenGauge value={severity.upi} />
-      </motion.div>
-
-      <motion.div variants={entrance} className="flex flex-col gap-2">
-        {todayData.types.map(type => (
-          <TypeRow
-            key={type.code}
-            name={type.name}
-            upi={type.upi}
-            species={todayData.species.filter(s => {
-              if (type.code === 'TREE') return ['OAK', 'BIRCH', 'MAPLE', 'ELM', 'ASH', 'PINE', 'ALDER', 'COTTONWOOD'].includes(s.code)
-              if (type.code === 'GRASS') return ['TIMOTHY_GRASS', 'BLUEGRASS', 'RYEGRASS'].includes(s.code)
-              if (type.code === 'WEED') return ['RAGWEED', 'MUGWORT'].includes(s.code)
-              return false
-            })}
-          />
-        ))}
+      {/* Type breakdown */}
+      <motion.div variants={entrance}>
+        <p className="text-[10px] font-bold uppercase tracking-[0.1em] mb-3 px-1" style={{ color: 'var(--color-text-subtle)' }}>
+          Pollen Breakdown
+        </p>
+        <div className="flex flex-col gap-2">
+          {todayData.types.map(type => (
+            <TypeRow
+              key={type.code}
+              name={type.name}
+              code={type.code}
+              upi={type.upi}
+              species={todayData.species.filter(s => {
+                if (type.code === 'TREE') return ['OAK', 'BIRCH', 'MAPLE', 'ELM', 'ASH', 'PINE', 'ALDER', 'COTTONWOOD'].includes(s.code)
+                if (type.code === 'GRASS') return ['TIMOTHY_GRASS', 'BLUEGRASS', 'RYEGRASS'].includes(s.code)
+                if (type.code === 'WEED') return ['RAGWEED', 'MUGWORT'].includes(s.code)
+                return false
+              })}
+            />
+          ))}
+        </div>
       </motion.div>
 
       {severity.isPersonalized && (
         <motion.p
           variants={entrance}
-          className="text-text-subtle text-xs mt-6"
-          style={{ fontFamily: 'var(--font-mono)' }}
+          className="text-xs mt-6"
+          style={{ color: 'var(--color-text-subtle)' }}
         >
           Personalized to your allergens
         </motion.p>

@@ -22,46 +22,48 @@ export default function PeakHoursBar() {
       animate="visible"
       className="px-6"
     >
-      <p
-        className="text-xs uppercase tracking-wider text-text-subtle mb-3"
-        style={{ fontFamily: 'var(--font-mono)' }}
-      >
+      <p className="text-[10px] font-bold uppercase tracking-[0.1em] mb-3" style={{ color: 'var(--color-text-subtle)' }}>
         Peak hours
       </p>
-      <div className="flex gap-px items-end h-10">
-        {HOURS.map(h => {
-          const intensity = getHourIntensity(h)
-          const isCurrent = h === now
-          return (
-            <motion.div
-              key={h}
-              className="flex-1 rounded-sm relative"
-              style={{
-                height: `${20 + intensity * 80}%`,
-                backgroundColor: intensity > 0.3
-                  ? `rgba(194, 93, 58, ${intensity * 0.7})`
-                  : 'var(--color-border)',
-              }}
-              initial={{ scaleY: 0 }}
-              animate={{ scaleY: 1 }}
-              transition={{ delay: 0.1 + h * 0.02, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {isCurrent && (
-                <div
-                  className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full"
-                  style={{ backgroundColor: 'var(--color-text)' }}
-                />
-              )}
-            </motion.div>
-          )
-        })}
-      </div>
-      <div className="flex justify-between mt-1.5">
-        <span className="text-[10px] text-text-subtle" style={{ fontFamily: 'var(--font-mono)' }}>12am</span>
-        <span className="text-[10px] text-text-subtle" style={{ fontFamily: 'var(--font-mono)' }}>6am</span>
-        <span className="text-[10px] text-text-subtle" style={{ fontFamily: 'var(--font-mono)' }}>12pm</span>
-        <span className="text-[10px] text-text-subtle" style={{ fontFamily: 'var(--font-mono)' }}>6pm</span>
-        <span className="text-[10px] text-text-subtle" style={{ fontFamily: 'var(--font-mono)' }}>11pm</span>
+      <div
+        className="p-5 rounded-2xl"
+        style={{ backgroundColor: 'var(--color-surface)', boxShadow: '0 0 0 1px var(--color-border)' }}
+      >
+        <div className="flex gap-px items-end h-12 mb-3">
+          {HOURS.map(h => {
+            const intensity = getHourIntensity(h)
+            const isCurrent = h === now
+            const isPeak = intensity > 0.3
+            return (
+              <motion.div
+                key={h}
+                className="flex-1 rounded-t-sm relative"
+                style={{
+                  height: `${20 + intensity * 80}%`,
+                  backgroundColor: isPeak
+                    ? `rgba(133, 83, 53, ${intensity * 0.7})`
+                    : 'var(--color-surface-high)',
+                }}
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                transition={{ delay: 0.1 + h * 0.02, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {isCurrent && (
+                  <div
+                    className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full"
+                    style={{ backgroundColor: 'var(--color-text)' }}
+                  />
+                )}
+              </motion.div>
+            )
+          })}
+        </div>
+        <div className="flex justify-between">
+          <span className="text-[10px] font-bold" style={{ color: 'var(--color-text-subtle)' }}>6 AM</span>
+          <span className="text-[10px] font-bold" style={{ color: 'var(--color-severity-3)' }}>12 PM</span>
+          <span className="text-[10px] font-bold" style={{ color: 'var(--color-text-subtle)' }}>6 PM</span>
+          <span className="text-[10px] font-bold" style={{ color: 'var(--color-text-subtle)' }}>12 AM</span>
+        </div>
       </div>
     </motion.div>
   )

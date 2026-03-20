@@ -33,98 +33,95 @@ export default function Detail() {
       initial="hidden"
       animate="visible"
     >
-        <motion.div variants={entrance} className="px-6">
-          <h1
-            className="text-3xl tracking-tight mb-1"
-            style={{ fontFamily: 'var(--font-display)' }}
-          >
-            Detail
-          </h1>
-          <p className="text-sm text-text-muted">{season}</p>
-        </motion.div>
+      <motion.div variants={entrance} className="px-6">
+        <h1 className="text-3xl font-extrabold tracking-tight mb-1">Active Species</h1>
+        <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>{season}</p>
+      </motion.div>
 
-        {/* Currently active species with levels */}
-        <motion.div variants={entrance} className="px-6">
-          <p
-            className="text-xs uppercase tracking-wider text-text-subtle mb-3"
-            style={{ fontFamily: 'var(--font-mono)' }}
+      {/* Species cards with progress bars */}
+      <motion.div variants={entrance} className="px-6">
+        {species.length === 0 ? (
+          <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>No significant pollen activity detected.</p>
+        ) : (
+          <motion.div
+            className="flex flex-col gap-3"
+            variants={listStagger}
+            initial="hidden"
+            animate="visible"
           >
-            Active species today
-          </p>
-          {species.length === 0 ? (
-            <p className="text-sm text-text-muted">No significant pollen activity detected.</p>
-          ) : (
-            <motion.div
-              className="flex flex-col gap-2"
-              variants={listStagger}
-              initial="hidden"
-              animate="visible"
-            >
-              {species.map(s => {
-                const config = getSeverityConfig(s.upi)
-                return (
-                  <motion.div
-                    key={s.code}
-                    variants={entrance}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl"
-                    style={{
-                      backgroundColor: 'var(--color-surface)',
-                      boxShadow: '0 0 0 1px var(--color-border)',
-                    }}
-                  >
+            {species.map(s => {
+              const config = getSeverityConfig(s.upi)
+              const pct = Math.min(100, (s.upi / 4) * 100)
+              const isHigh = s.upi >= 3
+              return (
+                <motion.div
+                  key={s.code}
+                  variants={entrance}
+                  className="flex items-center justify-between p-5 rounded-2xl"
+                  style={{
+                    backgroundColor: isHigh ? config.lightColor : 'var(--color-surface)',
+                    boxShadow: isHigh ? 'none' : '0 0 0 1px var(--color-border)',
+                  }}
+                >
+                  <div className="flex items-center gap-4">
                     <div
-                      className="w-3 h-3 rounded-full shrink-0"
-                      style={{ backgroundColor: config.color }}
-                    />
-                    <span className="text-sm font-medium flex-1">{s.name}</span>
-                    <span
-                      className="text-xs px-2 py-0.5 rounded-full"
-                      style={{
-                        backgroundColor: config.lightColor,
-                        color: config.color,
-                        fontFamily: 'var(--font-mono)',
-                      }}
+                      className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: isHigh ? 'white' : config.lightColor }}
                     >
-                      {config.label}
-                    </span>
-                  </motion.div>
-                )
-              })}
-            </motion.div>
+                      <span className="material-symbols-outlined text-2xl" style={{ color: config.color }}>
+                        {s.code === 'RAGWEED' || s.code === 'MUGWORT' ? 'energy_savings_leaf' :
+                         ['TIMOTHY_GRASS', 'BLUEGRASS', 'RYEGRASS'].includes(s.code) ? 'grass' : 'park'}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="block text-[10px] font-bold tracking-widest uppercase mb-0.5" style={{ color: 'var(--color-text-subtle)' }}>
+                        {s.code === 'RAGWEED' || s.code === 'MUGWORT' ? 'Weed' :
+                         ['TIMOTHY_GRASS', 'BLUEGRASS', 'RYEGRASS'].includes(s.code) ? 'Grass' : 'Tree'}
+                      </span>
+                      <h3 className="text-lg font-bold leading-none">{s.name}</h3>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xl font-extrabold" style={{ color: config.color }}>{config.label}</span>
+                    <div className="w-12 h-1 rounded-full overflow-hidden mt-1" style={{ backgroundColor: 'rgba(49,51,46,0.08)' }}>
+                      <div className="h-full rounded-full" style={{ backgroundColor: config.color, width: `${pct}%` }} />
+                    </div>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </motion.div>
+        )}
+      </motion.div>
+
+      {/* What's blooming now */}
+      <motion.div variants={entrance} className="px-6">
+        <p className="text-[10px] font-bold uppercase tracking-[0.1em] mb-3" style={{ color: 'var(--color-text-subtle)' }}>
+          What's blooming in NYC
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {activeAllergens.map(a => (
+            <span
+              key={a.code}
+              className="text-xs font-medium px-3 py-1.5 rounded-full"
+              style={{
+                backgroundColor: 'var(--color-surface)',
+                boxShadow: '0 0 0 1px var(--color-border)',
+                color: 'var(--color-text-muted)',
+              }}
+            >
+              {a.name}
+            </span>
+          ))}
+          {activeAllergens.length === 0 && (
+            <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Nothing major blooming right now.</p>
           )}
-        </motion.div>
+        </div>
+      </motion.div>
 
-        {/* What's blooming now */}
-        <motion.div variants={entrance} className="px-6">
-          <p
-            className="text-xs uppercase tracking-wider text-text-subtle mb-3"
-            style={{ fontFamily: 'var(--font-mono)' }}
-          >
-            What's blooming in NYC
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {activeAllergens.map(a => (
-              <span
-                key={a.code}
-                className="text-xs px-3 py-1.5 rounded-full"
-                style={{
-                  backgroundColor: 'var(--color-surface)',
-                  boxShadow: '0 0 0 1px var(--color-border)',
-                  color: 'var(--color-text-muted)',
-                }}
-              >
-                {a.name}
-              </span>
-            ))}
-            {activeAllergens.length === 0 && (
-              <p className="text-sm text-text-muted">Nothing major blooming right now. Enjoy the break.</p>
-            )}
-          </div>
-        </motion.div>
+      <PeakHoursBar />
 
-        <PeakHoursBar />
-
-        <BloomCalendar />
+      <BloomCalendar />
     </motion.div>
   )
 }
