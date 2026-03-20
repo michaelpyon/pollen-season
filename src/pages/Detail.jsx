@@ -57,6 +57,8 @@ export default function Detail() {
             <motion.div
               className="flex flex-col gap-2"
               variants={listStagger}
+              initial="hidden"
+              animate="visible"
             >
               {species.map(s => {
                 const config = getSeverityConfig(s.upi)
