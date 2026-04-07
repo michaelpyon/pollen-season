@@ -41,8 +41,9 @@ export default function PeakHoursBar() {
                 style={{
                   height: `${20 + intensity * 80}%`,
                   backgroundColor: isPeak
-                    ? `rgba(133, 83, 53, ${intensity * 0.7})`
+                    ? `rgba(var(--color-severity-3-rgb), ${intensity * 0.7})`
                     : 'var(--color-surface-high)',
+                  transformOrigin: 'bottom',
                 }}
                 initial={{ scaleY: 0 }}
                 animate={{ scaleY: 1 }}

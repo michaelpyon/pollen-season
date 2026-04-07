@@ -14,11 +14,11 @@ export default function NavBar() {
     <nav
       className="fixed bottom-0 left-0 right-0 z-50 sm:relative sm:bottom-auto"
       style={{
-        background: 'rgba(251, 249, 244, 0.7)',
+        background: 'var(--color-bg-glass)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         borderRadius: '2.5rem 2.5rem 0 0',
-        boxShadow: '0 -4px 40px rgba(49, 51, 46, 0.05)',
+        boxShadow: '0 -4px 40px var(--color-shadow)',
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}
     >
@@ -33,8 +33,8 @@ export default function NavBar() {
               <motion.div
                 className="flex flex-col items-center gap-1 px-1 py-1 rounded-full"
                 style={{
-                  backgroundColor: isActive ? 'rgba(58, 102, 106, 0.1)' : 'transparent',
-                  color: isActive ? 'var(--color-primary)' : 'rgba(49, 51, 46, 0.4)',
+                  backgroundColor: isActive ? 'var(--color-primary-alpha)' : 'transparent',
+                  color: isActive ? 'var(--color-primary)' : 'var(--color-text-disabled)',
                 }}
                 animate={{ scale: isActive ? 1 : 0.95 }}
                 transition={spring}

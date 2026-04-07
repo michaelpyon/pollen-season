@@ -2,6 +2,7 @@
 
 :root {
   --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Plus Jakarta Sans', ui-monospace, SFMono-Regular, monospace;
 
   --color-bg: #fbf9f4;
   --color-surface: #f5f4ed;
@@ -14,7 +15,16 @@
   --color-border-hover: rgba(49, 51, 46, 0.18);
   --color-primary: #3a666a;
   --color-primary-container: #bdebef;
+  --color-on-primary: #e7fdff;
   --color-on-primary-container: #2c585c;
+  --color-primary-alpha: rgba(58, 102, 106, 0.1);
+
+  --color-bg-glass: rgba(251, 249, 244, 0.7);
+  --color-divider: rgba(49, 51, 46, 0.08);
+  --color-text-disabled: rgba(49, 51, 46, 0.4);
+  --color-shadow: rgba(49, 51, 46, 0.05);
+  --color-focus-ring: var(--color-primary);
+  --color-selection: rgba(58, 102, 106, 0.15);
 
   /* Severity: teal (calm) -> warm gold -> peach -> red-brown (urgent) */
   --color-severity-0: #3a666a;
@@ -32,6 +42,13 @@
   --color-severity-4: #a83836;
   --color-severity-4-light: #fce4e4;
   --color-severity-4-bg: #fdf0f0;
+
+  /* RGB components for dynamic opacity use */
+  --color-severity-3-rgb: 133, 83, 53;
+
+  /* Plant accent colors (bloom calendar) */
+  --color-plant-birch: #4d7a7e;
+  --color-plant-pine: #49664e;
 }
 
 @theme {
@@ -42,11 +59,18 @@
   --color-text: var(--color-text);
   --color-text-muted: var(--color-text-muted);
   --color-text-subtle: var(--color-text-subtle);
+  --color-text-disabled: var(--color-text-disabled);
   --color-border: var(--color-border);
   --color-border-hover: var(--color-border-hover);
   --color-primary: var(--color-primary);
   --color-primary-container: var(--color-primary-container);
+  --color-on-primary: var(--color-on-primary);
+  --color-primary-alpha: var(--color-primary-alpha);
+  --color-bg-glass: var(--color-bg-glass);
+  --color-divider: var(--color-divider);
+  --color-shadow: var(--color-shadow);
   --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 }
 
 html {
@@ -97,11 +121,11 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
 ::selection {
-  background: rgba(58, 102, 106, 0.15);
+  background: var(--color-selection);
 }

@@ -5,17 +5,17 @@ import { entrance, listStagger } from '../constants/theme'
 
 const MONTHS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']
 
-// Colors per plant type for the bars
+// Colors per plant type for the bars (mapped to CSS tokens)
 const BAR_COLORS = {
-  ELM: '#3a666a',
-  MAPLE: '#3a666a',
-  BIRCH: '#4d7a7e',
-  OAK: '#855335',
-  ASH: '#3a666a',
-  PINE: '#49664e',
-  GRASS: '#9A7B4F',
-  MUGWORT: '#855335',
-  RAGWEED: '#a83836',
+  ELM: 'var(--color-primary)',
+  MAPLE: 'var(--color-primary)',
+  BIRCH: 'var(--color-plant-birch)',
+  OAK: 'var(--color-severity-3)',
+  ASH: 'var(--color-primary)',
+  PINE: 'var(--color-plant-pine)',
+  GRASS: 'var(--color-severity-2)',
+  MUGWORT: 'var(--color-severity-3)',
+  RAGWEED: 'var(--color-severity-4)',
 }
 
 export default function BloomCalendar() {

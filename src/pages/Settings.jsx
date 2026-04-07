@@ -51,7 +51,7 @@ export default function Settings() {
               className="px-6 py-3 rounded-full text-sm font-bold transition-opacity hover:opacity-90 active:scale-95"
               style={{
                 backgroundColor: 'var(--color-primary)',
-                color: '#e7fdff',
+                color: 'var(--color-on-primary)',
               }}
             >
               Join
@@ -64,7 +64,7 @@ export default function Settings() {
       <motion.div variants={entrance} className="px-6 space-y-6">
         <h3 className="text-lg font-bold">Tracked Allergens</h3>
         {PLANT_GROUPS.map(group => {
-          const icon = group.type === 'tree' ? 'park' : group.type === 'grass' ? 'grass' : 'energy_savings_leaf'
+          const icon = group.type === 'TREE' ? 'park' : group.type === 'GRASS' ? 'grass' : 'energy_savings_leaf'
           return (
             <div key={group.type} className="space-y-2">
               <div className="flex items-center gap-2 px-1">
@@ -100,7 +100,7 @@ export default function Settings() {
                           className="absolute top-1 w-3 h-3 rounded-full transition-all duration-200"
                           style={{
                             left: selected ? '1.375rem' : '0.25rem',
-                            backgroundColor: selected ? '#e7fdff' : 'var(--color-text-subtle)',
+                            backgroundColor: selected ? 'var(--color-on-primary)' : 'var(--color-text-subtle)',
                           }}
                         />
                       </div>

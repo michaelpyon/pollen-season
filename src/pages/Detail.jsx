@@ -83,7 +83,7 @@ export default function Detail() {
                   </div>
                   <div className="text-right">
                     <span className="text-xl font-extrabold" style={{ color: config.color }}>{config.label}</span>
-                    <div className="w-12 h-1 rounded-full overflow-hidden mt-1" style={{ backgroundColor: 'rgba(49,51,46,0.08)' }}>
+                    <div className="w-12 h-1 rounded-full overflow-hidden mt-1" style={{ backgroundColor: 'var(--color-divider)' }}>
                       <div className="h-full rounded-full" style={{ backgroundColor: config.color, width: `${pct}%` }} />
                     </div>
                   </div>
