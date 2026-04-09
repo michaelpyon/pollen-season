@@ -66,7 +66,7 @@ export default function Detail() {
                   <div className="flex items-center gap-4">
                     <div
                       className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
-                      style={{ backgroundColor: isHigh ? 'white' : config.lightColor }}
+                      style={{ backgroundColor: isHigh ? 'var(--color-bg)' : config.lightColor }}
                     >
                       <span className="material-symbols-outlined text-2xl" style={{ color: config.color }}>
                         {s.code === 'RAGWEED' || s.code === 'MUGWORT' ? 'energy_savings_leaf' :
