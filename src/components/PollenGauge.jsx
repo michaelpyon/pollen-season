@@ -20,7 +20,8 @@ export default function PollenGauge({ value }) {
               className="flex-1 rounded-full"
               style={{
                 height: `${heightPct}%`,
-                backgroundColor: active ? config.color : 'rgba(49, 51, 46, 0.08)',
+                backgroundColor: active ? config.color : 'var(--color-divider)',
+                transformOrigin: 'bottom',
               }}
               initial={{ scaleY: 0 }}
               animate={{ scaleY: 1 }}
@@ -28,11 +29,6 @@ export default function PollenGauge({ value }) {
                 delay: 0.3 + i * 0.06,
                 duration: 0.4,
                 ease: [0.16, 1, 0.3, 1],
-              }}
-              style={{
-                height: `${heightPct}%`,
-                backgroundColor: active ? config.color : 'rgba(49, 51, 46, 0.08)',
-                transformOrigin: 'bottom',
               }}
             />
           )

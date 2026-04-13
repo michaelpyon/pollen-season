@@ -1,32 +1,26 @@
 import { motion } from 'motion/react'
-import { usePollenData } from '../hooks/usePollenData'
-import { useWeather } from '../hooks/useWeather'
-import { usePreferences } from '../hooks/usePreferences'
-import { usePersonalSeverity } from '../hooks/usePersonalSeverity'
+import { usePollen } from '../context/PollenContext'
 import SeverityHero from '../components/SeverityHero'
 import TrendAlert from '../components/TrendAlert'
 import WeatherCorrelation from '../components/WeatherCorrelation'
 import ActionTips from '../components/ActionTips'
 import PeakHoursBar from '../components/PeakHoursBar'
+import BoroughMap from '../components/BoroughMap'
+import LoadingSkeleton from '../components/LoadingSkeleton'
 import { stagger } from '../constants/theme'
 
+const pageTransition = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+  transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+}
+
 export default function Today() {
-  const { data, loading, error } = usePollenData()
-  const { weather } = useWeather()
-  const { prefs } = usePreferences()
-  const severity = usePersonalSeverity(data?.today, prefs.allergens)
+  const { today, forecast, boroughs, loading, error } = usePollen()
 
   if (loading) {
-    return (
-      <div className="min-h-[calc(100dvh-5rem)] flex items-center justify-center">
-        <motion.div
-          className="w-8 h-8 rounded-full"
-          style={{ backgroundColor: 'var(--color-surface)' }}
-          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </div>
-    )
+    return <LoadingSkeleton variant="today" />
   }
 
   if (error) {
@@ -38,7 +32,7 @@ export default function Today() {
     )
   }
 
-  const tomorrowUpi = data?.forecast?.[1]?.overallUpi ?? 0
+  const tomorrowIndex = forecast?.[1]?.overallIndex ?? 0
 
   return (
     <motion.div
@@ -46,16 +40,20 @@ export default function Today() {
       variants={stagger}
       initial="hidden"
       animate="visible"
+      exit={{ opacity: 0 }}
+      {...pageTransition}
     >
-      <SeverityHero todayData={data.today} severity={severity} />
+      <SeverityHero todayData={today} />
 
-      <TrendAlert todayUpi={severity.upi} tomorrowUpi={tomorrowUpi} />
+      <TrendAlert todayIndex={today.overallIndex} tomorrowIndex={tomorrowIndex} />
 
-      <WeatherCorrelation weather={weather} />
+      <WeatherCorrelation weather={today.weather} severity={today.severity} />
 
-      <PeakHoursBar />
+      <PeakHoursBar peakHours={today.peakHours} />
 
-      <ActionTips upi={severity.upi} />
+      <BoroughMap boroughs={boroughs} />
+
+      <ActionTips upi={today.overallIndex} />
     </motion.div>
   )
 }

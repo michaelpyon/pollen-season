@@ -24,7 +24,13 @@ export const listStagger = {
 }
 
 export const exitVariant = {
-  exit: { opacity: 0, transition: { duration: 0.15 } },
+  exit: { opacity: 0, y: -8, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } },
+}
+
+export const pageVariants = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
 }
 
 export const spring = { type: 'spring', duration: 0.3, bounce: 0 }
@@ -70,4 +76,5 @@ export const TYPE_ICONS = {
   TREE: 'park',
   GRASS: 'grass',
   WEED: 'energy_savings_leaf',
+  MOLD: 'humidity_mid',
 }

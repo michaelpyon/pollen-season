@@ -1,30 +1,36 @@
 import { motion } from 'motion/react'
-import { usePollenData } from '../hooks/usePollenData'
+import { usePollen } from '../context/PollenContext'
 import BloomCalendar from '../components/BloomCalendar'
 import PeakHoursBar from '../components/PeakHoursBar'
+import LoadingSkeleton from '../components/LoadingSkeleton'
 import { getSeverityConfig } from '../utils/severity'
 import { getCurrentSeason, getActiveAllergens } from '../utils/allergens'
 import { entrance, stagger, listStagger } from '../constants/theme'
 
-export default function Detail() {
-  const { data, loading } = usePollenData()
+const pageTransition = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+  transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+}
 
-  if (loading || !data) {
-    return (
-      <div className="min-h-[calc(100dvh-5rem)] flex items-center justify-center">
-        <motion.div
-          className="w-8 h-8 rounded-full"
-          style={{ backgroundColor: 'var(--color-surface)' }}
-          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </div>
-    )
+export default function Detail() {
+  const { today, loading } = usePollen()
+
+  if (loading || !today) {
+    return <LoadingSkeleton variant="detail" />
   }
 
   const season = getCurrentSeason()
   const activeAllergens = getActiveAllergens()
-  const species = data.today.species.filter(s => s.upi > 0).sort((a, b) => b.upi - a.upi)
+
+  // Flatten all species from all types
+  const allSpecies = today.types.flatMap(t =>
+    (t.speciesDetail || []).filter(s => s.index > 0).map(s => ({
+      ...s,
+      typeName: t.name,
+    }))
+  ).sort((a, b) => b.index - a.index)
 
   return (
     <motion.div
@@ -32,15 +38,17 @@ export default function Detail() {
       variants={stagger}
       initial="hidden"
       animate="visible"
+      exit={{ opacity: 0 }}
+      {...pageTransition}
     >
       <motion.div variants={entrance} className="px-6">
         <h1 className="text-3xl font-extrabold tracking-tight mb-1">Active Species</h1>
         <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>{season}</p>
       </motion.div>
 
-      {/* Species cards with progress bars */}
+      {/* Species cards */}
       <motion.div variants={entrance} className="px-6">
-        {species.length === 0 ? (
+        {allSpecies.length === 0 ? (
           <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>No significant pollen activity detected.</p>
         ) : (
           <motion.div
@@ -49,10 +57,10 @@ export default function Detail() {
             initial="hidden"
             animate="visible"
           >
-            {species.map(s => {
-              const config = getSeverityConfig(s.upi)
-              const pct = Math.min(100, (s.upi / 4) * 100)
-              const isHigh = s.upi >= 3
+            {allSpecies.map((s, i) => {
+              const config = getSeverityConfig(s.index)
+              const pct = Math.min(100, (s.index / 4) * 100)
+              const isHigh = s.index >= 3
               return (
                 <motion.div
                   key={s.code}
@@ -66,25 +74,31 @@ export default function Detail() {
                   <div className="flex items-center gap-4">
                     <div
                       className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
-                      style={{ backgroundColor: isHigh ? 'white' : config.lightColor }}
+                      style={{ backgroundColor: isHigh ? 'var(--color-bg)' : config.lightColor }}
                     >
                       <span className="material-symbols-outlined text-2xl" style={{ color: config.color }}>
-                        {s.code === 'RAGWEED' || s.code === 'MUGWORT' ? 'energy_savings_leaf' :
-                         ['TIMOTHY_GRASS', 'BLUEGRASS', 'RYEGRASS'].includes(s.code) ? 'grass' : 'park'}
+                        {s.typeName === 'Weed' ? 'energy_savings_leaf' :
+                         s.typeName === 'Grass' ? 'grass' :
+                         s.typeName === 'Mold' ? 'humidity_mid' : 'park'}
                       </span>
                     </div>
                     <div>
                       <span className="block text-[10px] font-bold tracking-widest uppercase mb-0.5" style={{ color: 'var(--color-text-subtle)' }}>
-                        {s.code === 'RAGWEED' || s.code === 'MUGWORT' ? 'Weed' :
-                         ['TIMOTHY_GRASS', 'BLUEGRASS', 'RYEGRASS'].includes(s.code) ? 'Grass' : 'Tree'}
+                        {s.typeName}
                       </span>
                       <h3 className="text-lg font-bold leading-none">{s.name}</h3>
                     </div>
                   </div>
                   <div className="text-right">
                     <span className="text-xl font-extrabold" style={{ color: config.color }}>{config.label}</span>
-                    <div className="w-12 h-1 rounded-full overflow-hidden mt-1" style={{ backgroundColor: 'rgba(49,51,46,0.08)' }}>
-                      <div className="h-full rounded-full" style={{ backgroundColor: config.color, width: `${pct}%` }} />
+                    <div className="w-12 h-1 rounded-full overflow-hidden mt-1" style={{ backgroundColor: 'var(--color-divider)' }}>
+                      <motion.div
+                        className="h-full rounded-full"
+                        style={{ backgroundColor: config.color }}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${pct}%` }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 + i * 0.05 }}
+                      />
                     </div>
                   </div>
                 </motion.div>
@@ -119,7 +133,7 @@ export default function Detail() {
         </div>
       </motion.div>
 
-      <PeakHoursBar />
+      <PeakHoursBar peakHours={today.peakHours} />
 
       <BloomCalendar />
     </motion.div>

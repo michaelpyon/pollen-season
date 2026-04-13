@@ -5,12 +5,15 @@ import { entrance, stagger } from '../constants/theme'
 import PollenGauge from './PollenGauge'
 import TypeRow from './TypeRow'
 
-export default function SeverityHero({ todayData, severity }) {
-  if (!todayData || !severity) return null
+export default function SeverityHero({ todayData }) {
+  if (!todayData) return null
 
-  const config = getSeverityConfig(severity.upi)
-  const recommendation = getRecommendation(severity.upi, severity.topSpecies)
-  const bgColor = config.bgColor || 'var(--color-bg)'
+  const config = getSeverityConfig(todayData.overallIndex)
+  const topSpecies = todayData.types
+    .filter(t => t.index >= 3)
+    .sort((a, b) => b.index - a.index)
+    .map(t => t.name)
+  const recommendation = getRecommendation(todayData.overallIndex, topSpecies)
 
   return (
     <motion.div
@@ -39,8 +42,20 @@ export default function SeverityHero({ todayData, severity }) {
         <p className="text-[10px] font-bold tracking-[0.1em] uppercase mb-2" style={{ color: config.color, opacity: 0.7 }}>
           Current Severity
         </p>
+
+        {/* Animated index number */}
+        <motion.div
+          className="text-6xl font-extrabold mb-2"
+          style={{ color: config.color, fontVariantNumeric: 'tabular-nums' }}
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+        >
+          {todayData.overallIndex}
+        </motion.div>
+
         <h1
-          className="text-7xl sm:text-8xl font-extrabold tracking-tighter mb-4"
+          className="text-5xl sm:text-6xl font-extrabold tracking-tighter mb-4"
           style={{ color: config.color }}
         >
           {config.label}
@@ -51,7 +66,7 @@ export default function SeverityHero({ todayData, severity }) {
 
         {/* Gauge inside the card */}
         <div className="mt-8 w-full max-w-xs">
-          <PollenGauge value={severity.upi} />
+          <PollenGauge value={todayData.overallIndex} />
         </div>
       </motion.div>
 
@@ -63,30 +78,16 @@ export default function SeverityHero({ todayData, severity }) {
         <div className="flex flex-col gap-2">
           {todayData.types.map(type => (
             <TypeRow
-              key={type.code}
+              key={type.name}
               name={type.name}
-              code={type.code}
-              upi={type.upi}
-              species={todayData.species.filter(s => {
-                if (type.code === 'TREE') return ['OAK', 'BIRCH', 'MAPLE', 'ELM', 'ASH', 'PINE', 'ALDER', 'COTTONWOOD'].includes(s.code)
-                if (type.code === 'GRASS') return ['TIMOTHY_GRASS', 'BLUEGRASS', 'RYEGRASS'].includes(s.code)
-                if (type.code === 'WEED') return ['RAGWEED', 'MUGWORT'].includes(s.code)
-                return false
-              })}
+              code={type.name.toUpperCase()}
+              upi={type.index}
+              species={type.speciesDetail || []}
+              trend={type.trend}
             />
           ))}
         </div>
       </motion.div>
-
-      {severity.isPersonalized && (
-        <motion.p
-          variants={entrance}
-          className="text-xs mt-6"
-          style={{ color: 'var(--color-text-subtle)' }}
-        >
-          Personalized to your allergens
-        </motion.p>
-      )}
     </motion.div>
   )
 }

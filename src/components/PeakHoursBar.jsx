@@ -1,19 +1,31 @@
 import { motion } from 'motion/react'
 import { entrance } from '../constants/theme'
 
-// Pollen peaks 5-10am, secondary bump 5-7pm
 const HOURS = Array.from({ length: 24 }, (_, i) => i)
-const PEAK_HOURS = new Set([5, 6, 7, 8, 9])
-const SECONDARY_HOURS = new Set([17, 18])
 
-function getHourIntensity(h) {
-  if (PEAK_HOURS.has(h)) return 1
-  if (SECONDARY_HOURS.has(h)) return 0.5
-  return 0.1
+function getHourIntensity(h, peakHours) {
+  if (!peakHours) {
+    // Default peak hours 5-10am
+    if (h >= 5 && h <= 9) return 1
+    if (h === 17 || h === 18) return 0.5
+    return 0.1
+  }
+
+  const { start, end, peak } = peakHours
+  if (h >= start && h <= end) {
+    // Higher intensity near peak
+    const distFromPeak = Math.abs(h - peak)
+    const maxDist = Math.max(peak - start, end - peak)
+    return maxDist > 0 ? 1 - (distFromPeak / maxDist) * 0.4 : 1
+  }
+  // Small secondary bump in evening
+  if (h >= 17 && h <= 19) return 0.3
+  return 0.08
 }
 
-export default function PeakHoursBar() {
+export default function PeakHoursBar({ peakHours }) {
   const now = new Date().getHours()
+  const peak = peakHours || { start: 5, end: 10, peak: 7 }
 
   return (
     <motion.div
@@ -23,7 +35,7 @@ export default function PeakHoursBar() {
       className="px-6"
     >
       <p className="text-[10px] font-bold uppercase tracking-[0.1em] mb-3" style={{ color: 'var(--color-text-subtle)' }}>
-        Peak hours
+        Peak hours ({peak.start > 12 ? `${peak.start - 12}pm` : `${peak.start}am`} - {peak.end > 12 ? `${peak.end - 12}pm` : `${peak.end}am`})
       </p>
       <div
         className="p-5 rounded-2xl"
@@ -31,7 +43,7 @@ export default function PeakHoursBar() {
       >
         <div className="flex gap-px items-end h-12 mb-3">
           {HOURS.map(h => {
-            const intensity = getHourIntensity(h)
+            const intensity = getHourIntensity(h, peakHours)
             const isCurrent = h === now
             const isPeak = intensity > 0.3
             return (
@@ -41,17 +53,20 @@ export default function PeakHoursBar() {
                 style={{
                   height: `${20 + intensity * 80}%`,
                   backgroundColor: isPeak
-                    ? `rgba(133, 83, 53, ${intensity * 0.7})`
+                    ? `rgba(var(--color-severity-3-rgb), ${intensity * 0.7})`
                     : 'var(--color-surface-high)',
+                  transformOrigin: 'bottom',
                 }}
                 initial={{ scaleY: 0 }}
                 animate={{ scaleY: 1 }}
                 transition={{ delay: 0.1 + h * 0.02, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               >
                 {isCurrent && (
-                  <div
+                  <motion.div
                     className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full"
                     style={{ backgroundColor: 'var(--color-text)' }}
+                    animate={{ scale: [1, 1.3, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                   />
                 )}
               </motion.div>
