@@ -1,15 +1,21 @@
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import { usePreferences } from '../hooks/usePreferences'
-import { usePollenData } from '../hooks/usePollenData'
+import { usePollen } from '../context/PollenContext'
 import { PLANT_GROUPS, PLANTS } from '../constants/plants'
 import { entrance, stagger } from '../constants/theme'
 
+const pageTransition = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+  transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+}
+
 export default function Settings() {
   const { prefs, toggleAllergen } = usePreferences()
-  const { data } = usePollenData()
+  const { today } = usePollen()
   const [phone, setPhone] = useState('')
-  const todaySpecies = data?.today?.species || []
 
   return (
     <motion.div
@@ -17,6 +23,8 @@ export default function Settings() {
       variants={stagger}
       initial="hidden"
       animate="visible"
+      exit={{ opacity: 0 }}
+      {...pageTransition}
     >
       <motion.div variants={entrance} className="px-6">
         <h1 className="text-3xl font-extrabold tracking-tight mb-1">Settings</h1>
@@ -89,7 +97,6 @@ export default function Settings() {
                       }}
                     >
                       <span className="text-sm font-medium">{plant.name}</span>
-                      {/* Toggle switch */}
                       <div
                         className="w-10 h-5 rounded-full relative transition-colors duration-200"
                         style={{
