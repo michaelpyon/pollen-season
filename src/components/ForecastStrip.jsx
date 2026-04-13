@@ -6,8 +6,8 @@ export default function ForecastStrip({ forecast }) {
   if (!forecast || forecast.length === 0) return null
 
   // Find the worst day to highlight it
-  const worstUpi = Math.max(...forecast.map(d => d.overallUpi))
-  const worstIndex = forecast.findIndex(d => d.overallUpi === worstUpi)
+  const worstIndex = Math.max(...forecast.map(d => d.overallIndex ?? d.overallUpi ?? 0))
+  const worstDayIdx = forecast.findIndex(d => (d.overallIndex ?? d.overallUpi ?? 0) === worstIndex)
 
   return (
     <div className="px-6">
@@ -15,7 +15,7 @@ export default function ForecastStrip({ forecast }) {
         className="text-xs uppercase tracking-wider text-text-subtle mb-3"
         style={{ fontFamily: 'var(--font-mono)' }}
       >
-        5-day forecast
+        7-day forecast
       </p>
       <motion.div
         className="flex gap-1 overflow-x-auto pb-2 -mx-1 px-1"
@@ -28,7 +28,7 @@ export default function ForecastStrip({ forecast }) {
           <DayCard
             key={day.date}
             day={day}
-            isWorst={i === worstIndex && worstUpi >= 3}
+            isWorst={i === worstDayIdx && worstIndex >= 3}
           />
         ))}
       </motion.div>

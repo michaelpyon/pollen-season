@@ -4,7 +4,8 @@ import { formatDayName } from '../utils/formatDate'
 import { entrance, spring, press } from '../constants/theme'
 
 export default function DayCard({ day, isWorst = false }) {
-  const config = getSeverityConfig(day.overallUpi)
+  const upi = day.overallIndex ?? day.overallUpi ?? 0
+  const config = getSeverityConfig(upi)
   const dayName = formatDayName(day.date)
   const isToday = dayName === 'Today'
 
@@ -47,7 +48,7 @@ export default function DayCard({ day, isWorst = false }) {
           color: config.color,
         }}
       >
-        {day.overallUpi}
+        {upi}
       </span>
 
       <span className="text-[11px] text-text-subtle">{config.label}</span>
