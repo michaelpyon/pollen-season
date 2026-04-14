@@ -104,10 +104,12 @@ export default function Settings() {
                         }}
                       >
                         <div
-                          className="absolute top-1 w-3 h-3 rounded-full transition-all duration-200"
+                          className="absolute top-1 w-3 h-3 rounded-full"
                           style={{
                             left: selected ? '1.375rem' : '0.25rem',
                             backgroundColor: selected ? 'var(--color-on-primary)' : 'var(--color-text-subtle)',
+                            transitionProperty: 'left, background-color',
+                            transitionDuration: '200ms',
                           }}
                         />
                       </div>

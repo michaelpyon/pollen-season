@@ -19,7 +19,7 @@ export function useWeather() {
         if (cancelled) return
         setWeather(getWeatherSummary(raw))
       } catch {
-        // API unavailable — use mock data
+        // API unavailable, use mock data
         if (cancelled) return
         console.info('[Pollen Season] Weather API unavailable, using mock data')
         setWeather(getWeatherSummary(MOCK_WEATHER_DATA))

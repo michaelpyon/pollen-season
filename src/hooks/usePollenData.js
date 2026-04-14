@@ -25,7 +25,7 @@ export function usePollenData() {
         const forecast = getForecastData(raw)
         setData({ today, forecast, raw })
       } catch {
-        // API unavailable (local dev, rate limit, etc.) — use mock data
+        // API unavailable (local dev, rate limit, etc.), use mock data
         if (cancelled) return
         console.info('[Pollen Season] API unavailable, using mock data')
         const today = getTodayData(MOCK_POLLEN_DATA)

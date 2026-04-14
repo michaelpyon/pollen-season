@@ -96,7 +96,7 @@ export default function Forecast() {
             <p className="text-[10px] font-bold tracking-[0.15em] uppercase" style={{ color: config.color, opacity: 0.8 }}>
               {selectedDay === 0 ? "Today's outlook" : formatFullDate(selected.date)}
             </p>
-            <h2 className="text-4xl font-extrabold" style={{ color: config.color }}>
+            <h2 className="text-4xl font-bold" style={{ color: config.color }}>
               {config.label}
             </h2>
             {selected.types.filter(t => t.index >= 2).length > 0 && (

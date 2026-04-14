@@ -39,7 +39,7 @@ export default function AllergenPicker({ prefs, toggleAllergen, todaySpecies = [
                   <motion.button
                     key={code}
                     onClick={() => toggleAllergen(code)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors"
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm min-h-[44px] transition-colors"
                     style={{
                       backgroundColor: selected ? 'var(--color-surface)' : 'transparent',
                       boxShadow: selected
