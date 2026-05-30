@@ -63,7 +63,7 @@ export default function SeasonalChart({ data }) {
       animate="visible"
     >
       <p className="text-[10px] font-bold uppercase tracking-[0.1em] mb-3" style={{ color: 'var(--color-text-subtle)' }}>
-        vs. last year
+        vs. last year (estimated)
       </p>
 
       <div
@@ -207,6 +207,10 @@ export default function SeasonalChart({ data }) {
             <span className="text-[10px] font-bold" style={{ color: 'var(--color-text-muted)' }}>Last year</span>
           </div>
         </div>
+
+        <p className="text-[10px] leading-snug mt-3" style={{ color: 'var(--color-text-subtle)' }}>
+          Both lines are seasonal estimates based on historical NYC patterns, not recorded measurements.
+        </p>
       </div>
     </motion.div>
   )
