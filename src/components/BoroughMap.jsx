@@ -150,6 +150,12 @@ export default function BoroughMap({ boroughs }) {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Disclosure: borough differences are modeled, not measured */}
+        <p className="mt-3 text-[10px] leading-relaxed" style={{ color: 'var(--color-text-muted)' }}>
+          Borough differences are modeled offsets from the citywide seasonal
+          estimate, not separate per borough measurements.
+        </p>
       </div>
     </motion.div>
   )

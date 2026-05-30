@@ -59,17 +59,20 @@ Disclose the "vs. last year" comparison as estimated. File:
 place the app presented invented numbers as a factual historical comparison, the
 exact thing Maya's community would call out. Effort S. Deploy needed to verify live.
 
+### Shipped wave 2
+- Replaced the default Vite README boilerplate with a real project README that
+  states what the app is, what is real (Open-Meteo weather) vs estimated (the
+  seasonal pollen model and borough offsets), and how to run it. File: `README.md`.
+- Added a borough map disclosure caption: "Borough differences are modeled offsets
+  from the citywide seasonal estimate, not separate per borough measurements." This
+  closes the last spot where the per borough numbers could read as measured, the
+  same honest disclosure pattern prior waves applied. File: `BoroughMap.jsx`.
+
 ### Quick wins
-1. Replace the default Vite README with a real project README (what it is, that
-   pollen is a seasonal estimate model and weather is real via Open-Meteo, how to
-   run). File: `README.md`. Why: anyone who finds the repo currently sees boilerplate.
-   Effort S. No deploy needed.
-2. Soften the "Manhattan, NY" hardcoded location label or make it reflect that the
+1. Soften the "Manhattan, NY" hardcoded location label or make it reflect that the
    model is NYC wide, since borough offsets in `getBoroughData` are also estimates.
    Files: `SeverityHero.jsx`, `Forecast.jsx`. Effort S. Deploy to verify.
-3. Add a short tooltip or caption on the borough map noting borough differences are
-   modeled, not measured. File: `BoroughMap.jsx`. Effort S. Deploy to verify.
-4. Make the SMS "Join" button either functional or clearly labeled as a waitlist
+2. Make the SMS "Join" button either functional or clearly labeled as a waitlist
    placeholder, currently it does nothing on click. File: `Settings.jsx`. Effort S.
 
 ### Bigger bets
