@@ -127,8 +127,8 @@ export default function Settings() {
         </p>
         <div className="text-sm leading-relaxed flex flex-col gap-2" style={{ color: 'var(--color-text-muted)' }}>
           <p>
-            Pollen Season uses the Google Pollen API to deliver real-time pollen forecasts
-            for New York City. Data updates every 30 minutes during pollen season.
+            Pollen levels shown are seasonal estimates based on historical NYC patterns, not live sensor measurements.
+            Weather data is real-time via Open-Meteo.
           </p>
           <p className="text-xs" style={{ color: 'var(--color-text-subtle)' }}>
             Pollen data should not replace medical advice. Consult your allergist for treatment decisions.

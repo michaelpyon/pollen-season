@@ -40,7 +40,7 @@ export default function SeverityHero({ todayData }) {
         style={{ backgroundColor: config.lightColor }}
       >
         <p className="text-[10px] font-bold tracking-[0.1em] uppercase mb-2" style={{ color: config.color, opacity: 0.7 }}>
-          Current Severity
+          Seasonal Estimate
         </p>
 
         {/* Animated index number */}
